@@ -23,6 +23,13 @@ class Contact {
         Contact.id += 1
     }
     
+    init (_ contactName: String, _ contactSurname: String, _ number: String, _ id: Int) {
+        name = contactName
+        surname = contactSurname
+        phoneNumber = number
+        contactId = id
+    }
+    
     public func getName() -> String {
         return name
     }
@@ -49,5 +56,11 @@ class Contact {
     
     public func setNewPhoneNumber(_ phoneNumber: String) {
         self.phoneNumber = phoneNumber
+    }
+}
+
+extension Contact: Equatable {
+    static func == (lhs: Contact, rhs: Contact) -> Bool {
+        return lhs.getContactId() == rhs.getContactId()
     }
 }

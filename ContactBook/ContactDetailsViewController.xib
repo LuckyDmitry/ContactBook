@@ -10,8 +10,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ContactDetailsViewController" customModule="ContactBook" customModuleProvider="target">
             <connections>
+                <outlet property="imageView" destination="89j-Rk-33s" id="AwP-9F-tZk"/>
                 <outlet property="nameTextField" destination="S9n-It-9Zb" id="tdg-bi-bVv"/>
                 <outlet property="phoneNumberTextField" destination="LR5-l1-s5X" id="2Xb-Sl-1YA"/>
+                <outlet property="pickImageButton" destination="s5e-vH-cjB" id="Zsp-AB-6De"/>
                 <outlet property="surnameTextField" destination="q3B-1a-thP" id="zal-PS-WoC"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -21,11 +23,15 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="89j-Rk-33s">
-                    <rect key="frame" x="20" y="94" width="134" height="110"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="89j-Rk-33s">
+                    <rect key="frame" x="20" y="92" width="150" height="110"/>
+                    <color key="tintColor" systemColor="secondaryLabelColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="39v-w7-3Kq"/>
+                        <constraint firstAttribute="height" constant="110" id="nEY-9b-vqk"/>
+                    </constraints>
                 </imageView>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q3B-1a-thP">
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="q3B-1a-thP">
                     <rect key="frame" x="284" y="164" width="100" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="ihx-a5-Tbt"/>
@@ -37,7 +43,7 @@
                         <action selector="onSurnameTextFieldChanged:" destination="-1" eventType="editingChanged" id="6d8-xQ-b48"/>
                     </connections>
                 </textField>
-                <textField opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S9n-It-9Zb">
+                <textField opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S9n-It-9Zb">
                     <rect key="frame" x="284" y="94" width="100" height="40"/>
                     <color key="backgroundColor" systemColor="systemGray2Color"/>
                     <constraints>
@@ -50,28 +56,54 @@
                         <action selector="onNameTextFieldChanged:" destination="-1" eventType="editingChanged" id="waI-Rd-QHP"/>
                     </connections>
                 </textField>
-                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LR5-l1-s5X">
-                    <rect key="frame" x="20" y="259" width="364" height="34"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LR5-l1-s5X">
+                    <rect key="frame" x="20" y="260" width="300" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="300" id="WLo-tk-qob"/>
+                        <constraint firstAttribute="height" constant="30" id="bfE-t5-VtJ"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                     <connections>
                         <action selector="onPhoneNumberTextFieldChanged" destination="-1" eventType="editingChanged" id="nSB-pX-clS"/>
                     </connections>
                 </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s5e-vH-cjB">
+                    <rect key="frame" x="20" y="210" width="150" height="30"/>
+                    <color key="backgroundColor" systemColor="separatorColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="7DI-mS-8Va"/>
+                    </constraints>
+                    <state key="normal" title="Pick photo"/>
+                    <connections>
+                        <action selector="onPickImageViewButtonPressed" destination="-1" eventType="touchUpInside" id="o3u-bu-7P2"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="S9n-It-9Zb" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="3yD-QN-OB2"/>
+                <constraint firstItem="LR5-l1-s5X" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="DTj-EZ-D3x"/>
+                <constraint firstItem="89j-Rk-33s" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="FVy-yf-O9K"/>
+                <constraint firstItem="s5e-vH-cjB" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="LzJ-t0-tKT"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="S9n-It-9Zb" secondAttribute="trailing" constant="30" id="O8S-gO-9WK"/>
+                <constraint firstItem="s5e-vH-cjB" firstAttribute="top" secondItem="89j-Rk-33s" secondAttribute="bottom" constant="8" id="fak-Wf-79H"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="q3B-1a-thP" secondAttribute="trailing" constant="30" id="j0f-iC-JHA"/>
                 <constraint firstItem="q3B-1a-thP" firstAttribute="top" secondItem="S9n-It-9Zb" secondAttribute="bottom" constant="30" id="j5O-bh-Vv4"/>
+                <constraint firstItem="LR5-l1-s5X" firstAttribute="top" secondItem="s5e-vH-cjB" secondAttribute="bottom" constant="20" id="ser-6E-HcS"/>
+                <constraint firstItem="89j-Rk-33s" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="48" id="vmh-tf-GMa"/>
             </constraints>
             <point key="canvasLocation" x="131.8840579710145" y="84.375"/>
         </view>
     </objects>
     <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="separatorColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

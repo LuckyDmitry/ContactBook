@@ -8,30 +8,47 @@
 import Foundation
 
 
-protocol RepositoryContact {
+protocol RepositoryContactProtocol {
     
-    func getContact() -> [Contact]
+    func getContacts() -> [Contact]
+   
+    func addContact(contact: Contact)
     
-    
-    
-    
+    func removeContact(contact: Contact)
 }
 
-protocol RecentCallsRepository {
+class RepositoryContact: RepositoryContactProtocol {
     
+    private var contacts = [Contact]()
     
-    func addRecent(contact: Contact)
-    func getRecents() -> [Contact]
-}
+    init(amountContacts: Int) {
+        self.contacts = populateContacts(amountContacts: amountContacts)
+    }
+    
+    func getContacts() -> [Contact] {
+        return self.contacts
+    }
+    
+    func addContact(contact: Contact) {
+        self.contacts.append(contact)
+    }
 
-
-class Repo {
+    func removeContact(contact: Contact) {
+        if let indexOfElement = self.contacts.firstIndex(of: contact) {
+            self.contacts.remove(at: indexOfElement)
+        }
+    }
     
-}
-
-extension Repo: RepositoryContact {
-    
-    func getContact() -> [Contact] {
-        //TODO
+    private func populateContacts(amountContacts: Int) -> [Contact] {
+        return [
+            Contact("Dmitry", "Trifonov", "89960086372"),
+            Contact("Dasha", "Rassadina", "+79992223212"),
+            Contact("Stepan", "Kulagin", "89960086372"),
+            Contact("Yura", "Milykov", "+79994232112"),
+            Contact("Ilya", "Gushin", "+79123223212"),
+            Contact("Vika", "Sennikova", "+79991111111"),
+            Contact("Just Seva", "", "+79991111111"),
+            Contact("Maks", "Putin", "+666")
+        ]
     }
 }

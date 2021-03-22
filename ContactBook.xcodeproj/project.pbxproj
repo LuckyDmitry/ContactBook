@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		4B29EF032603B7EB002E8018 /* ContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B29EF022603B7EB002E8018 /* ContactTableViewController.swift */; };
 		4B29EF062604015E002E8018 /* ContactMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B29EF052604015E002E8018 /* ContactMode.swift */; };
+		4B536E54260865A8003E4498 /* RecentCallModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4B536E52260865A8003E4498 /* RecentCallModel.xcdatamodeld */; };
 		4B93F3F026024477000ABFD5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F3EF26024477000ABFD5 /* AppDelegate.swift */; };
 		4B93F3F226024477000ABFD5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F3F126024477000ABFD5 /* SceneDelegate.swift */; };
-		4B93F3F426024477000ABFD5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F3F326024477000ABFD5 /* ViewController.swift */; };
 		4B93F3F726024477000ABFD5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B93F3F526024477000ABFD5 /* Main.storyboard */; };
 		4B93F3F926024478000ABFD5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B93F3F826024478000ABFD5 /* Assets.xcassets */; };
 		4B93F3FC26024478000ABFD5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B93F3FA26024478000ABFD5 /* LaunchScreen.storyboard */; };
@@ -25,10 +25,10 @@
 /* Begin PBXFileReference section */
 		4B29EF022603B7EB002E8018 /* ContactTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewController.swift; sourceTree = "<group>"; };
 		4B29EF052604015E002E8018 /* ContactMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactMode.swift; sourceTree = "<group>"; };
+		4B536E53260865A8003E4498 /* RecentCallModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RecentCallModel.xcdatamodel; sourceTree = "<group>"; };
 		4B93F3EC26024477000ABFD5 /* ContactBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B93F3EF26024477000ABFD5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B93F3F126024477000ABFD5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		4B93F3F326024477000ABFD5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4B93F3F626024477000ABFD5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4B93F3F826024478000ABFD5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4B93F3FB26024478000ABFD5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -72,7 +72,6 @@
 			children = (
 				4B93F3EF26024477000ABFD5 /* AppDelegate.swift */,
 				4B93F3F126024477000ABFD5 /* SceneDelegate.swift */,
-				4B93F3F326024477000ABFD5 /* ViewController.swift */,
 				4B93F3F526024477000ABFD5 /* Main.storyboard */,
 				4B93F419260260B6000ABFD5 /* ContactDetailsViewController.xib */,
 				4B93F3F826024478000ABFD5 /* Assets.xcassets */,
@@ -84,6 +83,7 @@
 				4B29EF022603B7EB002E8018 /* ContactTableViewController.swift */,
 				4B29EF052604015E002E8018 /* ContactMode.swift */,
 				4BBCBFD92604B176000DF187 /* RepositoryContact.swift */,
+				4B536E52260865A8003E4498 /* RecentCallModel.xcdatamodeld */,
 			);
 			path = ContactBook;
 			sourceTree = "<group>";
@@ -160,13 +160,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BBCBFDA2604B176000DF187 /* RepositoryContact.swift in Sources */,
-				4B93F3F426024477000ABFD5 /* ViewController.swift in Sources */,
 				4B93F3F026024477000ABFD5 /* AppDelegate.swift in Sources */,
 				4B93F40826024D96000ABFD5 /* Contact.swift in Sources */,
 				4B93F3F226024477000ABFD5 /* SceneDelegate.swift in Sources */,
 				4B29EF032603B7EB002E8018 /* ContactTableViewController.swift in Sources */,
 				4B29EF062604015E002E8018 /* ContactMode.swift in Sources */,
 				4BF13A9D2603ACB00073A720 /* RecentCallsTableViewController.swift in Sources */,
+				4B536E54260865A8003E4498 /* RecentCallModel.xcdatamodeld in Sources */,
 				4B93F41A260260B6000ABFD5 /* ContactDetailsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,6 +367,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4B536E52260865A8003E4498 /* RecentCallModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4B536E53260865A8003E4498 /* RecentCallModel.xcdatamodel */,
+			);
+			currentVersion = 4B536E53260865A8003E4498 /* RecentCallModel.xcdatamodel */;
+			path = RecentCallModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4B93F3E426024477000ABFD5 /* Project object */;
 }

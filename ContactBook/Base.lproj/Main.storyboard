@@ -86,7 +86,7 @@
         <!--Recent-->
         <scene sceneID="nZY-3P-8jT">
             <objects>
-                <tableViewController id="bhz-Qv-huh" customClass="RecentCallsTableViewController" customModule="ContactBook" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="RecentCallsTableViewController" id="bhz-Qv-huh" customClass="RecentCallsTableViewController" customModule="ContactBook" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="tAE-Nt-rGF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

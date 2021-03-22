@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 
 class RecentCallTableCell: UITableViewCell {
@@ -17,9 +18,37 @@ class RecentCallTableCell: UITableViewCell {
 
 class RecentCallsTableViewController: UITableViewController {
     
-    
-    private var reuseIdentifier: String = "RecentCall"
+    private let reuseIdentifier: String = "RecentCall"
     private var recentCalls = [(contact: Contact, dateOfCall: Date)]()
+    private var flag = true
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if flag {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+            
+            let context = appDelegate.persistentContainer.viewContext
+            let fetchRequest: NSFetchRequest<RecentCall> = RecentCall.fetchRequest()
+            
+            do {
+                let loadedContacts = try context.fetch(fetchRequest)
+                
+                for recent in loadedContacts {
+                    
+                    if let name = recent.contact_name, let surname = recent.contact_surname,
+                       let phone_number = recent.phone_number, let date = recent.time {
+                        print("LOADED")
+                        let contact = Contact(name, surname, phone_number, Int(recent.contact_id))
+                        recentCalls.append((contact: contact, dateOfCall: date))
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+            flag = false
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +56,39 @@ class RecentCallsTableViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(_:)),
                                                           name: Notification.Name("addContact"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeContacsName(_:)),
-                                                          name: Notification.Name("changeContactName"), object: nil)
+                                                          name: Notification.Name("changeContactDataInsideSection"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateRemoved(_:)),
                                                           name: Notification.Name("updateRemoved"), object: nil)
+    }
+    
+    func saveRecents() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        guard let entity = NSEntityDescription.entity(forEntityName: "RecentCall", in: context) else {
+            return
+        }
+        guard let taskObject = NSManagedObject(entity: entity, insertInto: context) as? RecentCall else {
+            return
+        }
+        
+        if let item = recentCalls.last {
+            taskObject.contact_id = Int64(item.contact.getContactId())
+            taskObject.time = item.dateOfCall
+            taskObject.contact_name = item.contact.getName()
+            taskObject.phone_number = item.contact.getPhoneNumber()
+            taskObject.contact_surname = item.contact.getSurname()
+        }
+        
+        do {
+            try context.save()
+            
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     @objc func methodOfReceivedNotification(_ notification: Notification) {
@@ -37,6 +96,7 @@ class RecentCallsTableViewController: UITableViewController {
             return
         }
         addRecentCall(contact: contact)
+        saveRecents()
     }
     
     @objc func updateRemoved(_ notification: Notification) {
@@ -73,14 +133,14 @@ class RecentCallsTableViewController: UITableViewController {
         self.tableView.reloadRows(at: indexes, with: .automatic)
     }
     
-    private func addRecentCall(contact: Contact?) {
+    func addRecentCall(contact: Contact?) {
         
         guard let checkedContact = contact else {
             return
         }
-        
         recentCalls.append((contact: checkedContact, dateOfCall: Date()))
         self.tableView.reloadData()
+        saveRecents()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -102,11 +162,15 @@ class RecentCallsTableViewController: UITableViewController {
         else{
             cell.contactDetails.text = contact.getName() + " " + contact.getSurname()
         }
-        cell.dateOfCall.text = parseData(date: date)
+        cell.dateOfCall.text = parseDate(date: date)
         return cell
     }
     
-    private func parseData(date: Date) -> String {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    private func parseDate(date: Date) -> String {
         
         let calendar = Calendar.current
         let components = calendar.dateComponents([.month, .day, .hour, .minute], from: date)
@@ -115,8 +179,7 @@ class RecentCallsTableViewController: UITableViewController {
             return ""
         }
         
-        let dateString = String(hour) + ":" + String(minute)
+        let dateString = String(hour) + ":" + (String(minute).count == 1 ? "0" + String(minute) :  String(minute))
         return dateString
     }
 }
-
