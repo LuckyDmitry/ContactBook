@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4B29EF032603B7EB002E8018 /* ContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B29EF022603B7EB002E8018 /* ContactTableViewController.swift */; };
 		4B29EF062604015E002E8018 /* ContactMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B29EF052604015E002E8018 /* ContactMode.swift */; };
+		4B3F07D9260BC51800B8A6F9 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3F07D8260BC51800B8A6F9 /* SettingsViewController.swift */; };
 		4B536E54260865A8003E4498 /* RecentCallModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4B536E52260865A8003E4498 /* RecentCallModel.xcdatamodeld */; };
 		4B93F3F026024477000ABFD5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F3EF26024477000ABFD5 /* AppDelegate.swift */; };
 		4B93F3F226024477000ABFD5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B93F3F126024477000ABFD5 /* SceneDelegate.swift */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		4B29EF022603B7EB002E8018 /* ContactTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewController.swift; sourceTree = "<group>"; };
 		4B29EF052604015E002E8018 /* ContactMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactMode.swift; sourceTree = "<group>"; };
+		4B3F07D8260BC51800B8A6F9 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4B536E53260865A8003E4498 /* RecentCallModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RecentCallModel.xcdatamodel; sourceTree = "<group>"; };
 		4B93F3EC26024477000ABFD5 /* ContactBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B93F3EF26024477000ABFD5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 				4B29EF052604015E002E8018 /* ContactMode.swift */,
 				4BBCBFD92604B176000DF187 /* RepositoryContact.swift */,
 				4B536E52260865A8003E4498 /* RecentCallModel.xcdatamodeld */,
+				4B3F07D8260BC51800B8A6F9 /* SettingsViewController.swift */,
 			);
 			path = ContactBook;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 				4BBCBFDA2604B176000DF187 /* RepositoryContact.swift in Sources */,
 				4B93F3F026024477000ABFD5 /* AppDelegate.swift in Sources */,
 				4B93F40826024D96000ABFD5 /* Contact.swift in Sources */,
+				4B3F07D9260BC51800B8A6F9 /* SettingsViewController.swift in Sources */,
 				4B93F3F226024477000ABFD5 /* SceneDelegate.swift in Sources */,
 				4B29EF032603B7EB002E8018 /* ContactTableViewController.swift in Sources */,
 				4B29EF062604015E002E8018 /* ContactMode.swift in Sources */,

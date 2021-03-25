@@ -5,7 +5,9 @@ class ContactTableViewController: UITableViewController {
     
     private var mapContacts: Dictionary<Character, [Contact]>?
     private var tableCellSections = [Character]()
-    private var contactsRepository = RepositoryContact(amountContacts: 10)
+    var closure: (([Contact]?) -> Void)?
+    private var contactsRepository: RepositoryContact?
+    private var refresher: UIRefreshControl?
     
     @IBAction func onAddItemButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -20,25 +22,44 @@ class ContactTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.selectedIndex = 1
-        let contacts = contactsRepository.getContacts()
-        
-        mapContacts = Dictionary(grouping: contacts){ contact in
-            (contact.getName().uppercased().first ?? " ")
-        }
-        
-        if let mapContacts = mapContacts {
-            for (key, _)  in mapContacts {
-                tableCellSections.append(key)
+        closure = {[weak self] contacts in
+            
+            guard let contacts = contacts else {
+                return
+            }
+            
+            self?.mapContacts = Dictionary(grouping: contacts){ contact in
+                (contact.getName().uppercased().first ?? " ")
+            }
+            self?.tableCellSections = [Character]()
+            if let mapContacts = self?.mapContacts {
+                for (key, _)  in mapContacts {
+                    self?.tableCellSections.append(key)
+                }
+            }
+            self?.tableCellSections.sort()
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+                self?.refresher?.endRefreshing()
+                
             }
         }
-        tableCellSections.sort()
+        
+        self.refresher = UIRefreshControl()
+        self.refresher?.addTarget(self, action: #selector(updateData(_:)), for: .valueChanged)
+        refresher?.tintColor = .red
+        refresher?.attributedTitle = NSAttributedString(string: "Fetching contacts data", attributes: nil)
+        tableView.refreshControl = refresher
+        refresher?.beginRefreshing()
+        contactsRepository = RepositoryContact()
+        updateData(nil)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         
         return tableCellSections.count
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard let size = mapContacts?[tableCellSections[section]]?.count else {
@@ -94,22 +115,30 @@ class ContactTableViewController: UITableViewController {
 
 extension ContactTableViewController {
     
+    @objc private func updateData(_ t: Any?) {
+        guard let checkedClosure = closure else {
+            return
+        }
+        contactsRepository?.fetchData(handlerReceivedContacts: checkedClosure)
+    }
+    
     private func makeCall(idx: IndexPath) {
+        print(mapContacts![tableCellSections[idx.section]]![idx.row])
         
         guard let contact = mapContacts?[tableCellSections[idx.section]]?[idx.row] else {
             return
         }
-        if (contact.getPhoneNumber().isEmpty) {
-            customWarning(controller: self, message: "You can't call because a phone number is empty", seconds: 1)
-        } else {
-            guard let number = URL(string: "tel://" + contact.getPhoneNumber()) else {
-                return
-            }
-            
-            UIApplication.shared.open(number)
-            NotificationCenter.default.post(name: Notification.Name("addContact"), object: contact)
-          
+        
+        let phoneNumber = contact.getPhoneNumber().filter("0123456789".contains)
+        
+        guard let number = URL(string: "tel://" + phoneNumber) else {
+            customWarning(controller: self,
+                          message: "You can't call this number. Make sure number is correct", seconds: 1)
+            return
         }
+        
+        UIApplication.shared.open(number)
+        NotificationCenter.default.post(name: Notification.Name("addContact"), object: contact)
     }
     
     private func customWarning(controller: UIViewController,
@@ -133,7 +162,7 @@ extension ContactTableViewController {
         guard let contact = mapContacts?[tableSection]?[indexPath.row] else {
             return
         }
-        contactsRepository.removeContact(contact: contact)
+        contactsRepository?.removeContact(contact: contact)
         
         mapContacts?[tableSection]?.remove(at: indexPath.row)
         
@@ -144,13 +173,10 @@ extension ContactTableViewController {
             mapContacts?.removeValue(forKey: tableSection)
             let indexSet = IndexSet(arrayLiteral: indexPath.section)
             tableView.deleteSections(indexSet, with: .none)
-            
-            if (updateRecentContacts) {
-                NotificationCenter.default.post(name: Notification.Name("updateRemoved"), object: contact)
-            }
-            else {
-                NotificationCenter.default.post(name: Notification.Name("changeContactDataInsideSection"), object: contact)
-            }
+        }
+        
+        if (updateRecentContacts) {
+            NotificationCenter.default.post(name: Notification.Name("updateRemoved"), object: contact)
         } else {
             NotificationCenter.default.post(name: Notification.Name("changeContactDataInsideSection"), object: contact)
         }
@@ -192,12 +218,14 @@ extension ContactTableViewController {
     
                 if (self?.mapContacts?.keys.contains(key) ?? false) {
                     self?.mapContacts?[key]?.append(checkedContact)
-                    guard let amountElementsInCurrentSection = self?.tableCellSections.firstIndex(of: key) else {
+                    guard let idx = self?.tableCellSections.firstIndex(of: key) else {
                         return
                     }
-                    
-                    let indexSet = IndexSet.init(integersIn: 0...amountElementsInCurrentSection)
-                    self?.tableView.reloadSections(indexSet, with: .none)
+                    self?.mapContacts?[key]?.sort(by: { (first, second) -> Bool in
+                        return first.getName() > second.getName()
+                    })
+//                    self?.tableView.reloadSections(IndexSet(integer: idx), with: .automatic)
+                    self?.tableView.reloadData()
                     
                 } else {
                     self?.mapContacts?[key] = [checkedContact]
@@ -205,7 +233,7 @@ extension ContactTableViewController {
                     self?.tableCellSections.sort()
                     self?.tableView.reloadData()
                 }
-                self?.contactsRepository.addContact(contact: checkedContact)
+                self?.contactsRepository?.addContact(contact: checkedContact)
             }
         }
         return vc

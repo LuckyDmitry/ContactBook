@@ -8,7 +8,6 @@
 import UIKit
 import CoreData
 
-
 class RecentCallTableCell: UITableViewCell {
     
     
@@ -21,38 +20,10 @@ class RecentCallsTableViewController: UITableViewController {
     private let reuseIdentifier: String = "RecentCall"
     private var recentCalls = [(contact: Contact, dateOfCall: Date)]()
     private var flag = true
-    
-    override func viewWillAppear(_ animated: Bool) {
-        if flag {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
-            
-            let context = appDelegate.persistentContainer.viewContext
-            let fetchRequest: NSFetchRequest<RecentCall> = RecentCall.fetchRequest()
-            
-            do {
-                let loadedContacts = try context.fetch(fetchRequest)
-                
-                for recent in loadedContacts {
-                    
-                    if let name = recent.contact_name, let surname = recent.contact_surname,
-                       let phone_number = recent.phone_number, let date = recent.time {
-                        print("LOADED")
-                        let contact = Contact(name, surname, phone_number, Int(recent.contact_id))
-                        recentCalls.append((contact: contact, dateOfCall: date))
-                    }
-                }
-            } catch {
-                print(error.localizedDescription)
-            }
-            flag = false
-        }
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        fetchData()
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(_:)),
                                                           name: Notification.Name("addContact"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeContacsName(_:)),
@@ -61,7 +32,33 @@ class RecentCallsTableViewController: UITableViewController {
                                                           name: Notification.Name("updateRemoved"), object: nil)
     }
     
-    func saveRecents() {
+    func fetchData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<RecentCall> = RecentCall.fetchRequest()
+        
+        do {
+            let loadedContacts = try context.fetch(fetchRequest)
+            
+            for recent in loadedContacts {
+                
+                if let name = recent.contact_name,
+                   let surname = recent.contact_surname,
+                   let phone_number = recent.phone_number,
+                   let date = recent.time {
+                    let contact = Contact(name, surname, phone_number, Int(recent.contact_id))
+                    recentCalls.append((contact: contact, dateOfCall: date))
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func addCall() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -96,7 +93,7 @@ class RecentCallsTableViewController: UITableViewController {
             return
         }
         addRecentCall(contact: contact)
-        saveRecents()
+        addCall()
     }
     
     @objc func updateRemoved(_ notification: Notification) {
@@ -104,11 +101,11 @@ class RecentCallsTableViewController: UITableViewController {
         guard let contact = notification.object as? Contact else {
             return
         }
-        
         var indexes: [IndexPath] = []
         
         for (idx, item) in recentCalls.enumerated() {
             if item.contact.getContactId() == contact.getContactId() {
+                print(contact.getName())
                 item.contact.setNewName("")
                 item.contact.setNewSurname("")
                 indexes.append(IndexPath(row: idx, section: 0))
@@ -133,14 +130,9 @@ class RecentCallsTableViewController: UITableViewController {
         self.tableView.reloadRows(at: indexes, with: .automatic)
     }
     
-    func addRecentCall(contact: Contact?) {
-        
-        guard let checkedContact = contact else {
-            return
-        }
-        recentCalls.append((contact: checkedContact, dateOfCall: Date()))
+    func addRecentCall(contact: Contact) {
+        recentCalls.append((contact: contact, dateOfCall: Date()))
         self.tableView.reloadData()
-        saveRecents()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

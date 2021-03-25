@@ -7,13 +7,14 @@
 
 import Foundation
 
-class Contact {
+class Contact: Decodable {
     
     private var name: String
     private var surname: String
     private var phoneNumber: String
+    var email: String?
     private static var id: Int = 0
-    private var contactId: Int
+    private var contactId: Int = 0
 
     init (_ contactName: String, _ contactSurname: String, _ number: String) {
         name = contactName
@@ -30,6 +31,13 @@ class Contact {
         contactId = id
     }
     
+    private enum CodingKeys: String, CodingKey {
+        case name = "firstname"
+        case surname = "lastname"
+        case phoneNumber = "phone"
+        case email = "email"
+    }
+
     public func getName() -> String {
         return name
     }
