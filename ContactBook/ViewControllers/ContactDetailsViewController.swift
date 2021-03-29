@@ -5,25 +5,23 @@ class ContactDetailsViewController: UIViewController {
     private var contact: Contact?
     private var mode: ContactMode
     private var rightButton: UIBarButtonItem!
-    private var indexPath: IndexPath?
 
     @IBOutlet weak var surnameTextField: UITextField!
     @IBOutlet weak var nameTextField: UITextField!
     
-    @IBOutlet var pickImageButton: UIButton!
-    @IBOutlet var imageView: UIImageView!
     @IBOutlet var phoneNumberTextField: UITextField!
     
-    init(contactMode: ContactMode = ContactMode.Show, contact: Contact, indexPath: IndexPath? = nil){
+    init(contactMode: ContactMode = ContactMode.show, contact: Contact){
         self.contact = contact
         self.mode = contactMode
-        self.indexPath = indexPath
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    public var competion: ((_ contact: Contact?, _ mode: ContactMode?) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,25 +31,16 @@ class ContactDetailsViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = rightButton
         navigationItem.title = mode.getTitleMode()
-        surnameTextField?.text = contact?.getSurname()
-        nameTextField?.text = contact?.getName()
-        phoneNumberTextField?.text = contact?.getPhoneNumber()
+        surnameTextField?.text = contact?.surname
+        nameTextField?.text = contact?.name
+        phoneNumberTextField?.text = contact?.phoneNumber
         
-        if (mode == ContactMode.Show) {
+        if (mode == ContactMode.show) {
             changedMode(isActiveEditing: false)
         }
         else {
             changedMode(isActiveEditing: true)
         }
-    }
-    
-    @IBAction func onPickImageViewButtonPressed() {
-        let vc = UIImagePickerController()
-        vc.sourceType = .photoLibrary
-        vc.delegate = self
-        vc.allowsEditing = true
-        present(vc, animated: true)
-        
     }
     
     @IBAction func onNameTextFieldChanged(_ sender: UITextField) {
@@ -71,27 +60,25 @@ class ContactDetailsViewController: UIViewController {
     }
     
     @objc func buttonItemPressed() {
-        if (mode == ContactMode.Add || mode == ContactMode.Edit) {
+        if (mode == ContactMode.add || mode == ContactMode.edit) {
             
             guard let name = nameTextField?.text, let surname = surnameTextField?.text,
                   let phoneNumber = phoneNumberTextField?.text else {
                 return
             }
             
-            self.contact?.setNewName(name)
-            self.contact?.setNewSurname(surname)
-            self.contact?.setNewPhoneNumber(phoneNumber)
-            competion?(self.contact, indexPath)
+            contact?.name = name
+            contact?.surname = surname
+            contact?.phoneNumber = phoneNumber
+            competion?(contact, mode)
             navigationController?.popViewController(animated: true)
             
-        } else if (mode == ContactMode.Show) {
-            mode = ContactMode.Edit
+        } else if (mode == ContactMode.show) {
+            mode = ContactMode.edit
             rightButton.title = mode.getItemButton()
             changedMode(isActiveEditing: true)
         }
     }
-    
-    public var competion: ((_ contact: Contact?, _ indexPath: IndexPath?) -> Void)?
     
     private func enableButtonOnTextFieldDifferent() {
         guard let name = nameTextField?.text, let surname = surnameTextField?.text,
@@ -101,16 +88,14 @@ class ContactDetailsViewController: UIViewController {
         }
         
         if (contact == nil) {
-            contact = Contact("", "", "")
+            contact = Contact(contactName: "", contactSurname: "", number: "", email: "")
         } else if (name == "") {
             rightButton.isEnabled = false
-        } else if (name != contact?.getName()) {
+        } else if (name != contact?.name) {
             rightButton.isEnabled = true
-        } else if (surname != contact?.getSurname()) {
+        } else if (surname != contact?.surname) {
             rightButton.isEnabled = true
-        } else if (phoneNumber != contact?.getPhoneNumber()) {
-            rightButton.isEnabled = true
-        } else if (imageView.image != nil){
+        } else if (phoneNumber != contact?.phoneNumber) {
             rightButton.isEnabled = true
         } else {
             rightButton.isEnabled = false
@@ -122,21 +107,5 @@ class ContactDetailsViewController: UIViewController {
         nameTextField.isEnabled = isActiveEditing
         phoneNumberTextField.isEnabled = isActiveEditing
         rightButton.isEnabled = !isActiveEditing
-        pickImageButton.isEnabled = isActiveEditing
-    }
-}
-
-extension ContactDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        if let image = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage {
-            self.imageView.image = image
-        }
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
     }
 }

@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ContactData" representedClassName="ContactData" syncable="YES" codeGenerationType="class">
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="hashVal" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="surname" optional="YES" attributeType="String"/>
+        <relationship name="calls" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecentCall" inverseName="contact" inverseEntity="RecentCall"/>
+    </entity>
     <entity name="RecentCall" representedClassName="RecentCall" syncable="YES" codeGenerationType="class">
-        <attribute name="contact_id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" customClassName="[Contact]"/>
-        <attribute name="contact_name" optional="YES" attributeType="String"/>
-        <attribute name="contact_surname" optional="YES" attributeType="String"/>
-        <attribute name="phone_number" optional="YES" attributeType="String"/>
-        <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timeOfCall" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContactData" inverseName="calls" inverseEntity="ContactData"/>
     </entity>
     <elements>
-        <element name="RecentCall" positionX="-36" positionY="9" width="128" height="104"/>
+        <element name="ContactData" positionX="-155.3284301757812" positionY="150.3801574707031" width="128" height="119"/>
+        <element name="RecentCall" positionX="132.1826171875" positionY="53.43309020996094" width="128" height="58"/>
     </elements>
 </model>

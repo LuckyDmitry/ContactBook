@@ -1,21 +1,21 @@
 enum ContactMode {
-    case Show
-    case Add
-    case Edit
+    case show
+    case add
+    case edit
     
     func getTitleMode() -> String {
         switch self {
-        case .Add:
+        case .add:
             return "Add contact"
-        case .Edit:
+        case .edit:
             return "Edit contact"
-        case .Show:
+        case .show:
             return "Contact information"
         }
     }
     
     func getItemButton() -> String {
-        if (self == .Show){
+        if (self == .show){
             return "Edit"
         } else {
             return "Save"
