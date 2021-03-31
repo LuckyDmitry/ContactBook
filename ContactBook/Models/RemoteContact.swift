@@ -1,6 +1,6 @@
 import Foundation
 
-protocol RemoteContacts {
+protocol ContactsRemote {
     
     func getContacts() throws -> [Contact]
 }
@@ -10,7 +10,7 @@ enum URLError: Error {
     case errorGettingData
 }
 
-class RemoteContactsDataTask: RemoteContacts {
+class RemoteContactsDataTask: ContactsRemote {
     
     private var contacts = [Contact]()
     private let urlAddress = "https://gist.githubusercontent.com/artgoncharov/d257658423edd46a9ead5f721b837b8c/raw/c38ace33a7c871e4ad3b347fc4cd970bb45561a3/contacts_data.json"

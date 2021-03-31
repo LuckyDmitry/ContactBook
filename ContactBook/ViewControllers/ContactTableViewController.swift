@@ -6,9 +6,10 @@ class ContactTableViewController: UITableViewController {
     private var mapContacts: Dictionary<Character, [Contact]> = [:]
     private var tableCellSections: [Character] = []
     var updateUI: (([Contact]) -> Void)?
-    private var remoteContactsRepository: RemoteContacts?
+    private var contactsRemote: ContactsRemote?
+    private var factory: ModelsFactory?
     private var refresher: UIRefreshControl?
-    private var coreContactRepository: ContactsRepository?
+    private var contactsRepo: ContactsRepository?
     
     @IBAction func onAddItemButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -22,7 +23,16 @@ class ContactTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBarController?.selectedIndex = 1
+        let defaults = UserDefaults.standard
+        var index = 1
+        if let selectedScreen = defaults.string(forKey: LauchScreenKey.launchKey),
+           selectedScreen == LaunchScreen.contactsScreen.rawValue {
+            index = 0
+        }
+        
+        contactsRepo = ContactModels.factory.getContactsRepository()
+        contactsRemote = ContactModels.factory.getContactsRemote()
+        self.tabBarController?.selectedIndex = index
         updateUI = {contacts in
 
             self.mapContacts = Dictionary(grouping: contacts){ contact in
@@ -42,22 +52,20 @@ class ContactTableViewController: UITableViewController {
                 self.refresher?.endRefreshing()
             }
         }
-        remoteContactsRepository = RemoteContactsDataTask()
-        coreContactRepository = CoreDataContactsRepository()
-        
+    
         DispatchQueue.global(qos: .userInitiated).async {
             do {
-                guard let repositoryContacts = try self.coreContactRepository?.fetchContacts() else {
+                guard let repositoryContacts = try self.contactsRepo?.fetchContacts() else {
                     return
                 }
                 if (repositoryContacts.isEmpty) {
-                    guard let remoteContacts = try self.remoteContactsRepository?.getContacts() else {
+                    guard let remoteContacts = try self.contactsRemote?.getContacts() else {
                         return
                     }
                     self.updateUI?(remoteContacts)
                     DispatchQueue.global(qos: .background).async {
                         for contact in remoteContacts {
-                            self.coreContactRepository?.saveNewContact(contact: contact)
+                            self.contactsRepo?.saveNewContact(contact: contact)
                         }
                     }
                 } else {
@@ -118,9 +126,9 @@ class ContactTableViewController: UITableViewController {
                 return
             }
             DispatchQueue.global(qos: .userInteractive).async {
-                self.coreContactRepository?.removeContact(contact: contact)
+                self.contactsRepo?.removeContact(contact: contact)
                 do {
-                    guard let contacts = try self.coreContactRepository?.fetchContacts() else {
+                    guard let contacts = try self.contactsRepo?.fetchContacts() else {
                         return
                     }
                     self.updateUI?(contacts)
@@ -158,7 +166,7 @@ extension ContactTableViewController {
             showMessage(controller: self, message: "You can't call this number. Make sure number is correct", seconds: 0.5)
             return
         }
-        coreContactRepository?.addNewRecentCall(contact: contact, date: Date())
+        contactsRepo?.addNewRecentCall(contact: contact, date: Date())
     }
     
     private func showMessage(controller: UIViewController,
@@ -189,11 +197,11 @@ extension ContactTableViewController {
             }
             
             if (mode == ContactMode.edit) {
-                self?.coreContactRepository?.editContact(contact: contact)
+                self?.contactsRepo?.editContact(contact: contact)
             } else {
-                self?.coreContactRepository?.saveNewContact(contact: contact)
+                self?.contactsRepo?.saveNewContact(contact: contact)
             }
-            guard let contacts = try? self?.coreContactRepository?.fetchContacts() else {
+            guard let contacts = try? self?.contactsRepo?.fetchContacts() else {
                 return
             }
             self?.updateUI?(contacts)

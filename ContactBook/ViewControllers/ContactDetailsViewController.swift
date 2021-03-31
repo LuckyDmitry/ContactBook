@@ -30,7 +30,7 @@ class ContactDetailsViewController: UIViewController {
         phoneNumberTextField.addTarget(self, action: #selector(makeCall), for: .touchDown)
         
         navigationItem.rightBarButtonItem = rightButton
-        navigationItem.title = mode.getTitleMode()
+        navigationItem.title = mode.rawValue
         surnameTextField?.text = contact?.surname
         nameTextField?.text = contact?.name
         phoneNumberTextField?.text = contact?.phoneNumber
@@ -75,6 +75,7 @@ class ContactDetailsViewController: UIViewController {
             
         } else if (mode == ContactMode.show) {
             mode = ContactMode.edit
+            navigationItem.title = mode.rawValue
             rightButton.title = mode.getItemButton()
             changedMode(isActiveEditing: true)
         }
@@ -107,5 +108,6 @@ class ContactDetailsViewController: UIViewController {
         nameTextField.isEnabled = isActiveEditing
         phoneNumberTextField.isEnabled = isActiveEditing
         rightButton.isEnabled = !isActiveEditing
+        
     }
 }
