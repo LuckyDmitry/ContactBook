@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ContactData" representedClassName="ContactData" syncable="YES" codeGenerationType="class">
+        <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="hashVal" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -13,7 +14,7 @@
         <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContactData" inverseName="calls" inverseEntity="ContactData"/>
     </entity>
     <elements>
-        <element name="ContactData" positionX="-155.3284301757812" positionY="150.3801574707031" width="128" height="119"/>
+        <element name="ContactData" positionX="-155.3284301757812" positionY="150.3801574707031" width="128" height="134"/>
         <element name="RecentCall" positionX="132.1826171875" positionY="53.43309020996094" width="128" height="58"/>
     </elements>
 </model>

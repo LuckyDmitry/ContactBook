@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 private class ContactJsonEntry: Codable {
     var entry: [String: ContactJsonDetails]
     
@@ -43,7 +42,7 @@ public class FileManagerContactsRepository: ContactsRepository {
     init?() {
         encoder = JSONEncoder()
         fileManager = FileManager.default
-        guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("contacts12.json") else {
+        guard let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("contacts.json") else {
             return nil
         }
         fileUrl = url
@@ -96,14 +95,13 @@ public class FileManagerContactsRepository: ContactsRepository {
                let file = FileHandle(forWritingAtPath: fileUrl.path) {
                 file.write(dataResult)
             }
-            
         } catch {
             print(error)
         }
     }
     
     func remove(contact: Contact) {
-        guard let dataContacts = getDataObject() else{
+        guard let dataContacts = getDataObject() else {
             return
         }
         

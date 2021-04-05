@@ -191,6 +191,7 @@
                                         <constraint firstAttribute="trailing" secondItem="2Rj-o4-5Bv" secondAttribute="trailing" constant="20" id="xBb-x8-7tF"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <gestureRecognizers/>
                                 <connections>
                                     <outlet property="contactDetails" destination="Ty8-0y-iNK" id="btf-db-vLq"/>
                                     <outlet property="dateOfCall" destination="2Rj-o4-5Bv" id="Zaq-Cr-j8t"/>
@@ -206,7 +207,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X1v-dh-pyT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="543" y="976"/>
+            <point key="canvasLocation" x="540.57971014492762" y="975.66964285714278"/>
         </scene>
     </scenes>
     <resources>
