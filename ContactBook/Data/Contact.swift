@@ -7,20 +7,60 @@
 
 import Foundation
 
-public class Contact: Decodable {
+public class Contact: Decodable, Encodable {
     
-    var name: String
-    var surname: String
-    var phoneNumber: String
-    var email: String
+    private(set) var name: String = ""
+    private(set) var surname: String = ""
+    private(set) var phoneNumber: String = ""
+    private(set) var email: String = ""
+    private(set) var birthday: Date?
     private(set) var hash: Int64 = 0
+    var builder = Builder()
 
-    init (contactName: String, contactSurname: String, number: String, email: String, oldHash: Int64? = nil) {
-        self.name = contactName
-        self.surname = contactSurname
-        self.phoneNumber = number
-        self.email = email
-        self.hash = oldHash ?? Int64(strHash(UUID().uuidString))
+    init () {
+        builder.parent = self
+    }
+    
+    public class Builder {
+        
+        var parent: Contact!
+        
+        public func set(name: String) -> Builder {
+            parent.name = name
+            return self
+        }
+        
+        public func set(surname: String) -> Builder {
+            parent.surname = surname
+            return self
+        }
+        
+        public func set(phone: String) -> Builder {
+            parent.phoneNumber = phone
+            return self
+        }
+        
+        public func set(email: String) -> Builder {
+            parent.email = email
+            return self
+        }
+        
+        public func set(hash: Int64) -> Builder {
+            parent.hash = hash
+            return self
+        }
+    
+        public func set(birthday: Date) -> Builder {
+            parent.birthday = birthday
+            return self
+        }
+        
+        public func build() -> Contact {
+            if parent.hash == 0 {
+                parent.hash = Int64(parent.strHash(UUID().uuidString))
+            }
+            return parent
+        }
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -30,7 +70,7 @@ public class Contact: Decodable {
         case email = "email"
     }
     
-    func strHash(_ str: String) -> UInt64 {
+    private func strHash(_ str: String) -> UInt64 {
         var result = UInt64 (5381)
         let buf = [UInt8](str.utf8)
         for b in buf {

@@ -3,7 +3,6 @@ import UIKit
 
 class RecentCallTableCell: UITableViewCell {
     
-    
     @IBOutlet var contactDetails: UILabel!
     @IBOutlet var dateOfCall: UILabel!
 }
@@ -33,6 +32,10 @@ class RecentCallsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

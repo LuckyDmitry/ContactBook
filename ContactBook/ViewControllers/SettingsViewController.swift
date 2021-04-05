@@ -51,7 +51,6 @@ class SettingsViewController: UIViewController {
         let selectedRow = defaults.string(forKey: LauchScreenKey.launchKey)
         let idx = content.firstIndex(where: {$0.rawValue == selectedRow}) ?? 1
         pickerView?.selectRow(idx, inComponent: 0, animated: true)
-        
     }
 }
 
