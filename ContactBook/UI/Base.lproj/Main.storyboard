@@ -63,6 +63,7 @@
                                 <accessibility key="accessibilityConfiguration" identifier="ContactCell">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
+                                <gestureRecognizers/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -82,10 +83,50 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="K3q-kl-e3c" id="qfX-Mq-PPO"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="umh-8l-zff" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="780" y="295"/>
+        </scene>
+        <!--Andrey View Controller-->
+        <scene sceneID="ee8-wZ-4ve">
+            <objects>
+                <viewController storyboardIdentifier="andreyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mxx-13-Aop" customClass="AndreyViewController" customModule="ContactBook" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="klw-Xd-hMx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9k2-7E-YVa" customClass="CustomContactView" customModule="ContactBook" customModuleProvider="target">
+                                <rect key="frame" x="107" y="144" width="200" height="200"/>
+                                <color key="backgroundColor" systemColor="labelColor"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="Cbd-sc-MjJ"/>
+                                    <constraint firstAttribute="height" constant="200" id="oBJ-ui-xTh"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="4Ju-sn-L3N" appends="YES" id="aDD-h6-raJ"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="NmV-5O-bIT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9k2-7E-YVa" firstAttribute="top" secondItem="NmV-5O-bIT" secondAttribute="top" constant="100" id="SZK-HO-FRC"/>
+                            <constraint firstItem="9k2-7E-YVa" firstAttribute="centerX" secondItem="klw-Xd-hMx" secondAttribute="centerX" id="jFO-V2-qUs"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="uiView" destination="9k2-7E-YVa" id="CYk-eG-2BY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vvS-jW-V7t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="4Ju-sn-L3N"/>
+            </objects>
+            <point key="canvasLocation" x="1635" y="295"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="sdp-qz-eVG">
@@ -171,6 +212,9 @@
     <resources>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="note.text" catalog="system" width="128" height="106"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

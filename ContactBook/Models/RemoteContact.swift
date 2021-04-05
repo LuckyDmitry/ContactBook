@@ -28,7 +28,6 @@ class RemoteContactsDataTask: ContactsRemote {
         let semaphore = DispatchSemaphore(value: 0)
         let urlRequest = URLRequest(url: url)
         var contacts = [Contact]()
-        
         let request = URLSession.shared.dataTask(with: urlRequest) {(data, response, error) in
             
             defer {
@@ -39,8 +38,15 @@ class RemoteContactsDataTask: ContactsRemote {
             }
             do {
                 let result = try JSONDecoder().decode([Contact].self, from: data)
+
                 contacts = result.map{
-                    Contact(contactName: $0.name, contactSurname: $0.surname, number: $0.phoneNumber, email: $0.email)
+                    Contact().builder
+                        .set(name: $0.name)
+                        .set(surname: $0.surname)
+                        .set(phone: $0.phoneNumber)
+                        .set(email: $0.email)
+                        .set(hash: $0.hash)
+                        .build()
                 }
             } catch {
                 print(error.localizedDescription)
