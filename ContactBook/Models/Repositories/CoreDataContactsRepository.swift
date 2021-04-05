@@ -84,6 +84,7 @@ public class CoreDataContactsRepository: ContactsRepository {
             contactObject.first?.phone = contact.phoneNumber
             contactObject.first?.email = contact.email
             contactObject.first?.birthday = contact.birthday
+            print(contactObject.first?.birthday)
             try context.save()
         } catch {
             print(error.localizedDescription)
@@ -129,6 +130,8 @@ public class CoreDataContactsRepository: ContactsRepository {
                     .set(email: $0.email ?? "")
                     .set(hash: $0.hashVal)
                 if let birthday = $0.birthday {
+                    print("IN MAP")
+                    print(birthday)
                     builder.set(birthday: birthday)
                 }
                 return builder.build()

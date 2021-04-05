@@ -42,6 +42,12 @@ extension NewContactSerivce: CNContactViewControllerDelegate{
             newContact.set(phone: phoneNumber)
         }
         
+        if let birthday = contact.birthday?.date {
+            newContact.set(birthday: birthday)
+            print(birthday)
+            delegate?.onSaveNotification(forContact: newContact.build())
+        }
+        
         var finalContact: Contact!
         if !contact.note.isEmpty, let hash = Int64(contact.note) {
             newContact.set(hash: hash)
@@ -51,9 +57,6 @@ extension NewContactSerivce: CNContactViewControllerDelegate{
             finalContact = newContact.build()
             delegate?.onSavingFinished(contact: finalContact, mode: CNContactMode.add)
         }
-        if let birthday = contact.birthday?.date {
-            newContact.set(birthday: birthday)
-            delegate?.onSaveNotification(forContact: finalContact)
-        }
+        
     }
 }

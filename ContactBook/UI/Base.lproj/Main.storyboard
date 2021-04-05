@@ -53,17 +53,49 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactCell" id="UZz-HM-iXj">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactCell" id="UZz-HM-iXj" customClass="ContactCell" customModule="ContactBook" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UZz-HM-iXj" id="hvC-87-s6k">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OYV-3S-UoW">
+                                            <rect key="frame" x="80" y="-0.5" width="80" height="44.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="44" id="NjW-kg-jyN"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="YYx-po-EwA"/>
+                                                <constraint firstAttribute="width" constant="80" id="aVr-CK-bcz"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="w6n-ru-Zvl"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pae-We-BWQ">
+                                            <rect key="frame" x="20" y="2" width="40" height="40"/>
+                                            <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="40" id="DJA-ZI-8KX"/>
+                                                <constraint firstAttribute="height" constant="40" id="E8U-IL-A3c"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Pae-We-BWQ" firstAttribute="leading" secondItem="hvC-87-s6k" secondAttribute="leading" constant="20" id="Pdd-aQ-6zw"/>
+                                        <constraint firstItem="Pae-We-BWQ" firstAttribute="centerY" secondItem="hvC-87-s6k" secondAttribute="centerY" id="Wyl-yg-oM4"/>
+                                        <constraint firstItem="OYV-3S-UoW" firstAttribute="centerY" secondItem="hvC-87-s6k" secondAttribute="centerY" id="t4J-0K-MBo"/>
+                                        <constraint firstItem="OYV-3S-UoW" firstAttribute="leading" secondItem="Pae-We-BWQ" secondAttribute="trailing" constant="20" id="tuv-3O-tFJ"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <accessibility key="accessibilityConfiguration" identifier="ContactCell">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
                                 <gestureRecognizers/>
+                                <connections>
+                                    <outlet property="customView" destination="Pae-We-BWQ" id="YyQ-l7-Iyn"/>
+                                    <outlet property="nameLabel" destination="OYV-3S-UoW" id="KQd-34-JEI"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -89,7 +121,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="umh-8l-zff" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="780" y="295"/>
+            <point key="canvasLocation" x="779.71014492753625" y="293.97321428571428"/>
         </scene>
         <!--Andrey View Controller-->
         <scene sceneID="ee8-wZ-4ve">
@@ -218,6 +250,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -39,45 +39,7 @@ class ContactsPresenter: NSObject {
         contactsRemote = ContactModels.factory.getContactsRemote()
         birthdayService = BirthdayService()
         newContactService = NewContactSerivce()
-        birthdayService?.delegate = self
         newContactService?.delegate = self
-    }
-}
-
-extension ContactsPresenter: BirthdayServiceDelegate {
-    func setNotification(forContact contact: Contact) {
-        print(#function)
-        
-        guard let birthday = contact.birthday else {
-            return
-        }
-        requestAuthorization()
-
-        var calendar = Calendar.current.dateComponents([.day, .month], from: birthday)
-        let currentDate = Date()
-        var currentCalendar = Calendar.current.dateComponents([.minute, .hour], from: currentDate)
-        currentCalendar.minute! += 1
-        calendar.minute = currentCalendar.minute!
-        calendar.hour = currentCalendar.hour
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: calendar, repeats: true)
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Happy birthday"
-        content.body = "Today birthday's \(contact.name) \(contact.surname)"
-        
-        let identifier = String(contact.hash)
-        
-        let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
-    
-    private func requestAuthorization() {
-        print(#function)
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (response, error) in
-            print(response)
-        }
     }
 }
 
@@ -87,6 +49,9 @@ extension ContactsPresenter: ContactsViewOutput {
         let contactObject = CNMutableContact()
         contactObject.givenName = contact.name
         contactObject.familyName = contact.surname
+        if let birthday = contact.birthday {
+            contactObject.birthday = Calendar.current.dateComponents([.day, .month], from: birthday)
+        }
         contactObject.note = String(contact.hash)
         contactObject.phoneNumbers = [CNLabeledValue(label: CNLabelPhoneNumberiPhone, value: CNPhoneNumber(stringValue: contact.phoneNumber))]
         

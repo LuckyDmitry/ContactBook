@@ -1,6 +1,12 @@
 import UIKit
 import CoreData
 
+
+class ContactCell: UITableViewCell {
+    @IBOutlet var customView: UIView!
+    @IBOutlet var nameLabel: UILabel!
+}
+
 class ContactTableViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private var mapContacts: Dictionary<Character, [Contact]> = [:]
@@ -94,7 +100,7 @@ extension ContactTableViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath) as! ContactCell
         
         if let contact = mapContacts[tableCellSections[indexPath.section]]?[indexPath.row] {
             cell.textLabel?.text = (contact.name) + " " + (contact.surname)

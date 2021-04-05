@@ -25,8 +25,6 @@ class AndreyViewController: UIViewController, UIGestureRecognizerDelegate {
             uiView.text = text
         }
         
-        
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapCustomView(recognizer:)))
         view.addSubview(uiView)
         uiView.addGestureRecognizer(tapGesture)
