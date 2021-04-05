@@ -9,7 +9,7 @@ import UIKit
 
 class CustomContactView: UIView {
 
-    var contact: Contact?
+    var text: String?
     
     override func draw(_ rect: CGRect) {
         let path = UIGraphicsGetCurrentContext()
@@ -28,17 +28,10 @@ class CustomContactView: UIView {
 
         let textRect = CGRect(x: center.x - (sqrt(2) / 2) * radius, y: center.y - (sqrt(2) / 2) * radius, width: 2 * (sqrt(2) / 2) * radius, height: 2 * (sqrt(2) / 2) * radius)
         
-        if let contact = contact {
-                
-            guard let nameFirst = contact.name.first, let surnameFirst = contact.surname.first else {
-                return
-            }
-            let contactIdentifier = String(nameFirst) + String(surnameFirst)
-            
-            print(contactIdentifier)
-            let text = NSString(string: contactIdentifier)
+        if let text = text {
+            let text = NSString(string: text)
             text.draw(in: textRect, withAttributes:
-                        [NSAttributedString.Key.font: UIFont(name: "Helvetica Bold", size: radius - 10) as Any,
+                        [NSAttributedString.Key.font: UIFont(name: "Helvetica Bold", size: radius - 20) as Any,
                          NSAttributedString.Key.foregroundColor: UIColor.randomColor()])
         }
     }

@@ -15,9 +15,17 @@ class AndreyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if contact != nil {
-            uiView.contact = contact
+        
+        if let contact = contact {
+            
+            guard let nameFirst = contact.name.first else {
+                return
+            }
+            let text = "\(nameFirst)\(contact.surname.first ?? " ")"
+            uiView.text = text
         }
+        
+        
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapCustomView(recognizer:)))
         view.addSubview(uiView)
