@@ -10,6 +10,7 @@
 		4B0B25CE260D1E0A00DE6008 /* ContactsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0B25CD260D1E0A00DE6008 /* ContactsRepository.swift */; };
 		4B29EF032603B7EB002E8018 /* ContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B29EF022603B7EB002E8018 /* ContactTableViewController.swift */; };
 		4B29EF062604015E002E8018 /* ContactMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B29EF052604015E002E8018 /* ContactMode.swift */; };
+		4B383BD4261B1E0700BBF8D7 /* ContactService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B383BD3261B1E0700BBF8D7 /* ContactService.swift */; };
 		4B3F07D9260BC51800B8A6F9 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3F07D8260BC51800B8A6F9 /* SettingsViewController.swift */; };
 		4B46BB4E26147AA000A885EC /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B46BB4C26147A9B00A885EC /* ContactsUI.framework */; };
 		4B4AAFB0260D4FB600E22D30 /* RecentsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4AAFAF260D4FB600E22D30 /* RecentsRepository.swift */; };
@@ -38,6 +39,7 @@
 		4B0B25CD260D1E0A00DE6008 /* ContactsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsRepository.swift; sourceTree = "<group>"; };
 		4B29EF022603B7EB002E8018 /* ContactTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewController.swift; sourceTree = "<group>"; };
 		4B29EF052604015E002E8018 /* ContactMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactMode.swift; sourceTree = "<group>"; };
+		4B383BD3261B1E0700BBF8D7 /* ContactService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactService.swift; sourceTree = "<group>"; };
 		4B3F07D8260BC51800B8A6F9 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4B46BB4C26147A9B00A885EC /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
 		4B4AAFAF260D4FB600E22D30 /* RecentsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsRepository.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				4B59DEA826146CED00B8A8A6 /* ModelsFactoty.swift */,
 				4B59DEAB26146E1300B8A8A6 /* DefaultModelsFactory.swift */,
 				4B973BC42619BFED0091B672 /* BirthdayNotificationService.swift */,
+				4B383BD3261B1E0700BBF8D7 /* ContactService.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				4BD8FFF926150056009CAE44 /* FileManagerContactsRepository.swift in Sources */,
 				4B59DEA926146CED00B8A8A6 /* ModelsFactoty.swift in Sources */,
 				4B29EF062604015E002E8018 /* ContactMode.swift in Sources */,
+				4B383BD4261B1E0700BBF8D7 /* ContactService.swift in Sources */,
 				4BF13A9D2603ACB00073A720 /* RecentCallsTableViewController.swift in Sources */,
 				4BDFA7B02613900F00FA4554 /* ContactsPresenter.swift in Sources */,
 				4B536E54260865A8003E4498 /* RecentCallModel.xcdatamodeld in Sources */,

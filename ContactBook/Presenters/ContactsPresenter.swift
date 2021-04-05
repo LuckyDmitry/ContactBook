@@ -31,27 +31,36 @@ class ContactsPresenter: NSObject {
     private var contactsRemote: ContactsRemote?
     weak var view: ContactsView?
     var birthdayService: BirthdayService?
+    var newContactService: NewContactSerivce?
     
     override init() {
         super.init()
         contactsRepo = ContactModels.factory.getContactsRepository()
         contactsRemote = ContactModels.factory.getContactsRemote()
         birthdayService = BirthdayService()
+        newContactService = NewContactSerivce()
         birthdayService?.delegate = self
+        newContactService?.delegate = self
     }
 }
 
 extension ContactsPresenter: BirthdayServiceDelegate {
     func setNotification(forContact contact: Contact) {
         print(#function)
+        
+        guard let birthday = contact.birthday else {
+            return
+        }
         requestAuthorization()
-        var date = DateComponents()
-        date.hour = 7
-        date.minute = 58
-        date.day = 5
-        date.month = 4
 
-        let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
+        var calendar = Calendar.current.dateComponents([.day, .month], from: birthday)
+        let currentDate = Date()
+        var currentCalendar = Calendar.current.dateComponents([.minute, .hour], from: currentDate)
+        currentCalendar.minute! += 1
+        calendar.minute = currentCalendar.minute!
+        calendar.hour = currentCalendar.hour
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: calendar, repeats: true)
         
         let content = UNMutableNotificationContent()
         content.title = "Happy birthday"
@@ -85,7 +94,7 @@ extension ContactsPresenter: ContactsViewOutput {
         vc.allowsEditing = true
         vc.allowsActions = true
         vc.hidesBottomBarWhenPushed = true
-        vc.delegate = self
+        vc.delegate = newContactService
         view?.showContactView(vc)
     }
     
@@ -143,39 +152,23 @@ extension ContactsPresenter: ContactsViewOutput {
     func addContactButtonPressed() {
         let contact = CNContact()
         let vc = CNContactViewController(forNewContact: contact)
-        vc.delegate = self
+        vc.delegate = newContactService
         view?.showContactView(vc)
     }
 }
 
-extension ContactsPresenter: CNContactViewControllerDelegate {
-    func contactViewController(_ viewController: CNContactViewController, didCompleteWith contact: CNContact?) {
+extension ContactsPresenter: NewContactServiceDelegate {
+    func onSaveNotification(forContact contact: Contact) {
+        birthdayService?.birthdayNotification(contact: contact)
+    }
+    
+    func onSavingFinished(contact: Contact, mode: CNContactMode) {
         print(#function)
-        guard let contact = contact else {
-            return
+        switch mode {
+        case .add:
+            contactsRepo?.add(contact: contact)
+        case .edit:
+            contactsRepo?.edit(contact: contact)
         }
-        let newContact = Contact().builder
-            .set(name: contact.givenName)
-            .set(surname: contact.familyName)
-            
-        if let phoneNumber = contact.phoneNumbers.first?.value.stringValue {
-            newContact.set(phone: phoneNumber)
-        }
-        
-        if let birthday = contact.birthday?.date {
-            newContact.set(birthday: birthday)
-        }
-        
-        var finalContact: Contact!
-        if !contact.note.isEmpty, let hash = Int64(contact.note) {
-            newContact.set(hash: hash)
-            finalContact = newContact.build()
-            contactsRepo?.edit(contact: finalContact)
-        } else {
-            finalContact = newContact.build()
-            contactsRepo?.add(contact: finalContact)
-        }
-        
-        setNotification(forContact: finalContact)
     }
 }
