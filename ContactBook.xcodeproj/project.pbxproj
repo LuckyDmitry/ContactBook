@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,6 +26,7 @@
 		4B973BAF26189B740091B672 /* CustomContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B973BAE26189B740091B672 /* CustomContactView.swift */; };
 		4B973BC52619BFED0091B672 /* BirthdayNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B973BC42619BFED0091B672 /* BirthdayNotificationService.swift */; };
 		4BBCBFDA2604B176000DF187 /* RemoteContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBCBFD92604B176000DF187 /* RemoteContact.swift */; };
+		4BD2A0A7261DC5A30016F779 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD2A0A6261DC5A30016F779 /* ErrorAlert.swift */; };
 		4BD8FFEE2614D4A7009CAE44 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4BD8FFED2614D4A7009CAE44 /* Settings.bundle */; };
 		4BD8FFF22614FF7E009CAE44 /* CoreDataContactsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8FFF12614FF7E009CAE44 /* CoreDataContactsRepository.swift */; };
 		4BD8FFF52614FFEA009CAE44 /* CoreRecentsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8FFF42614FFEA009CAE44 /* CoreRecentsRepository.swift */; };
@@ -59,6 +60,7 @@
 		4B973BAE26189B740091B672 /* CustomContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContactView.swift; sourceTree = "<group>"; };
 		4B973BC42619BFED0091B672 /* BirthdayNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayNotificationService.swift; sourceTree = "<group>"; };
 		4BBCBFD92604B176000DF187 /* RemoteContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteContact.swift; sourceTree = "<group>"; };
+		4BD2A0A6261DC5A30016F779 /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 		4BD8FFED2614D4A7009CAE44 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4BD8FFF12614FF7E009CAE44 /* CoreDataContactsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataContactsRepository.swift; sourceTree = "<group>"; };
 		4BD8FFF42614FFEA009CAE44 /* CoreRecentsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreRecentsRepository.swift; sourceTree = "<group>"; };
@@ -89,7 +91,6 @@
 				D9808E0155CBC100EC6C0699 /* Pods-ContactBook.debug.xcconfig */,
 				26B0B2F77ADD80789766746B /* Pods-ContactBook.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -179,6 +180,7 @@
 				4B93F3FD26024478000ABFD5 /* Info.plist */,
 				4B536E52260865A8003E4498 /* RecentCallModel.xcdatamodeld */,
 				4BD8FFED2614D4A7009CAE44 /* Settings.bundle */,
+				4BD2A0A6261DC5A30016F779 /* ErrorAlert.swift */,
 			);
 			path = ContactBook;
 			sourceTree = "<group>";
@@ -331,6 +333,7 @@
 				4B29EF032603B7EB002E8018 /* ContactTableViewController.swift in Sources */,
 				4B973BC52619BFED0091B672 /* BirthdayNotificationService.swift in Sources */,
 				4BD8FFF926150056009CAE44 /* FileManagerContactsRepository.swift in Sources */,
+				4BD2A0A7261DC5A30016F779 /* ErrorAlert.swift in Sources */,
 				4B59DEA926146CED00B8A8A6 /* ModelsFactoty.swift in Sources */,
 				4B29EF062604015E002E8018 /* ContactMode.swift in Sources */,
 				4B383BD4261B1E0700BBF8D7 /* ContactService.swift in Sources */,

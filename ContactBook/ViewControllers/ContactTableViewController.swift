@@ -21,10 +21,11 @@ class ContactTableViewController: UIViewController, UIGestureRecognizerDelegate,
     private var filteredContacts: [Contact] = []
     private var tableCellSections: [Character] = []
     @IBOutlet var tableView: UITableView!
+    
+    let spinner = UIActivityIndicatorView(style: .gray)
     private var output: ContactsViewOutput!
     private var longPressGesture: UILongPressGestureRecognizer!
     private var isContactSearching: Bool = false
-    
     @IBAction func onAddItemButtonPressed(_ sender: UIBarButtonItem) {
         output.addContactButtonPressed()
     }
@@ -197,6 +198,17 @@ extension ContactTableViewController {
 }
 
 extension ContactTableViewController: ContactsView {
+    func showIndicator() {
+        self.tableView.isHidden = true
+        spinner.isHidden = false
+        spinner.startAnimating()
+    }
+    
+    func hideIndicator() {
+        self.tableView.isHidden = false
+        spinner.isHidden = true
+        spinner.stopAnimating()
+    }
     
     func showContacts(_ contacts: [Contact]) {
         print(#function)

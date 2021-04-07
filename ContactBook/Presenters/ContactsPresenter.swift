@@ -13,6 +13,8 @@ import ContactsUI
 protocol ContactsView: class {
     func showContactView(_ viewController: UIViewController)
     func showContacts(_ contacts: [Contact])
+    func showIndicator()
+    func hideIndicator()
 }
 
 protocol ContactsViewOutput {
@@ -35,6 +37,7 @@ class ContactsPresenter: NSObject {
     
     override init() {
         super.init()
+        
         contactsRepo = ContactModels.factory.getContactsRepository()
         contactsRemote = ContactModels.factory.getContactsRemote()
         birthdayService = BirthdayService()
@@ -93,25 +96,27 @@ extension ContactsPresenter: ContactsViewOutput {
     
     func viewWillLoad() {
         print(#function)
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             var contacts: [Contact]
+            self?.view?.showIndicator()
             do {
-                guard let repositoryContacts = try self.contactsRepo?.fetchContacts() else {
+                guard let repositoryContacts = try self?.contactsRepo?.fetchContacts() else {
                     return
                 }
                 contacts = repositoryContacts
                 if (repositoryContacts.isEmpty) {
-                    guard let remoteContacts = try self.contactsRemote?.getContacts() else {
+                    guard let remoteContacts = try self?.contactsRemote?.getContacts() else {
                         return
                     }
                     contacts = remoteContacts
                     DispatchQueue.global(qos: .background).async {
-                        self.contactsRepo?.save(contacts: contacts)
+                        self?.contactsRepo?.save(contacts: contacts)
                     }
                 }
-                self.view?.showContacts(contacts)
+                self?.view?.hideIndicator()
+                self?.view?.showContacts(contacts)
             } catch {
-                print(error.localizedDescription)
+                
             }
         }
     }
