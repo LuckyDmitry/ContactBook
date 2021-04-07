@@ -9,7 +9,6 @@ import Foundation
 import CoreData
 import UIKit
 
-
 public class CoreRecentsRepository: RecentsRepository {
     
     private let context: NSManagedObjectContext

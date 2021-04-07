@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - Contact
 public class Contact: Decodable, Encodable {
     
     private(set) var name: String = ""
@@ -17,13 +18,23 @@ public class Contact: Decodable, Encodable {
     private(set) var photoUrl: URL?
     private(set) var hash: Int64 = 0
     
-    
     var builder = Builder()
 
     init () {
         builder.parent = self
     }
     
+    private enum CodingKeys: String, CodingKey {
+        case name = "firstname"
+        case surname = "lastname"
+        case phoneNumber = "phone"
+        case email = "email"
+        case photoUrl = "photoUrl"
+    }
+}
+
+// MARK: - Builder extension
+extension Contact {
     public class Builder {
         
         var parent: Contact!
@@ -70,15 +81,10 @@ public class Contact: Decodable, Encodable {
             return parent
         }
     }
-    
-    private enum CodingKeys: String, CodingKey {
-        case name = "firstname"
-        case surname = "lastname"
-        case phoneNumber = "phone"
-        case email = "email"
-        case photoUrl = "photoUrl"
-    }
-    
+}
+
+// MARK: - Hash extension
+extension Contact {
     private func strHash(_ str: String) -> UInt64 {
         var result = UInt64 (5381)
         let buf = [UInt8](str.utf8)
@@ -89,6 +95,7 @@ public class Contact: Decodable, Encodable {
     }
 }
 
+// MARK: - Equatable extension
 extension Contact: Equatable {
     public static func == (lhs: Contact, rhs: Contact) -> Bool {
         return lhs.name == rhs.name &&

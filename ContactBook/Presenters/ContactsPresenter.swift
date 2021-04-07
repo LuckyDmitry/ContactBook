@@ -8,7 +8,7 @@
 import Foundation
 import ContactsUI
 
-// MARK: - Protocol
+// MARK: - Protocols
 
 protocol ContactsView: class {
     func showContactView(_ viewController: UIViewController)
@@ -43,6 +43,7 @@ class ContactsPresenter: NSObject {
     }
 }
 
+//MARK: - ContactsViewOutput extension
 extension ContactsPresenter: ContactsViewOutput {
     func contactPressed(contact: Contact) {
         print(#function)
@@ -93,21 +94,22 @@ extension ContactsPresenter: ContactsViewOutput {
     func viewWillLoad() {
         print(#function)
         DispatchQueue.global(qos: .userInitiated).async {
+            var contacts: [Contact]
             do {
                 guard let repositoryContacts = try self.contactsRepo?.fetchContacts() else {
                     return
                 }
+                contacts = repositoryContacts
                 if (repositoryContacts.isEmpty) {
                     guard let remoteContacts = try self.contactsRemote?.getContacts() else {
                         return
                     }
-                    self.view?.showContacts(remoteContacts)
+                    contacts = remoteContacts
                     DispatchQueue.global(qos: .background).async {
-                        self.contactsRepo?.save(contacts: remoteContacts)
+                        self.contactsRepo?.save(contacts: contacts)
                     }
-                } else {
-                    self.view?.showContacts(repositoryContacts)
                 }
+                self.view?.showContacts(contacts)
             } catch {
                 print(error.localizedDescription)
             }
@@ -122,6 +124,7 @@ extension ContactsPresenter: ContactsViewOutput {
     }
 }
 
+//MARK: - ContactsViewOutput NewContactServiceDelegate
 extension ContactsPresenter: NewContactServiceDelegate {
     func onSaveNotification(forContact contact: Contact) {
         birthdayService?.birthdayNotification(contact: contact)

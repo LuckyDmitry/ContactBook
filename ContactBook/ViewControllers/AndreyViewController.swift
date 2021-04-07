@@ -15,13 +15,8 @@ class AndreyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let contact = contact {
-            
-            guard let nameFirst = contact.name.first else {
-                return
-            }
-            let text = "\(nameFirst)\(contact.surname.first ?? " ")"
+        if let contact = contact, contact.name.count > 0 || contact.surname.count > 0 {
+            let text = "\(contact.name.first ?? " ")\(contact.surname.first ?? " ")"
             uiView.text = text
         }
         

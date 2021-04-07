@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 import CoreData
 
+// MARK: - CoreDataContactsRepository
 public class CoreDataContactsRepository: ContactsRepository {
 
- 
     private let context: NSManagedObjectContext
     private let backgroundContext: NSManagedObjectContext
     
@@ -49,12 +49,10 @@ public class CoreDataContactsRepository: ContactsRepository {
     }
     
     func add(contact: Contact) {
-        print(#function)
         guard let contactObject = NSEntityDescription.insertNewObject(forEntityName: "ContactData", into: backgroundContext) as? ContactData else {
             return
         }
         backgroundContext.performAndWait {
-            
             contactObject.name = contact.name
             contactObject.surname = contact.surname
             contactObject.hashVal = Int64(contact.hash)
@@ -86,7 +84,6 @@ public class CoreDataContactsRepository: ContactsRepository {
             contactObject.first?.email = contact.email
             contactObject.first?.photoUrl = contact.photoUrl
             contactObject.first?.birthday = contact.birthday
-            print(contactObject.first?.birthday)
             try context.save()
         } catch {
             print(error.localizedDescription)
@@ -118,16 +115,13 @@ public class CoreDataContactsRepository: ContactsRepository {
     func fetchContacts() throws -> [Contact] {
         print(#function)
         let request: NSFetchRequest<ContactData> = ContactData.fetchRequest()
-        
         var contasts = [Contact]()
+        
         do {
             contasts = try context.fetch(request).filter({
                 return !($0.name?.isEmpty ?? false) || !($0.surname?.isEmpty ?? false)
-            }) .map({
+            }).map({
                 let builder = Contact().builder
-                if let url = $0.photoUrl {
-                    print(url)
-                }
                 builder
                     .set(name: $0.name ?? "")
                     .set(surname: $0.surname ?? "")
@@ -145,5 +139,4 @@ public class CoreDataContactsRepository: ContactsRepository {
         }
         return contasts
     }
-
 }
