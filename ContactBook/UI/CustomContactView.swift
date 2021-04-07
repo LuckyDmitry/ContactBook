@@ -40,7 +40,6 @@ class CustomContactView: UIView {
         textToDwaw.draw(in: textRect, withAttributes:
                             [NSAttributedString.Key.font: UIFont(name: "Helvetica Bold", size: radius / 1.1) as Any,
                      NSAttributedString.Key.foregroundColor: UIColor.randomColor()])
-        
     }
 }
 

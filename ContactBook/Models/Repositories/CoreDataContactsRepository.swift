@@ -125,6 +125,9 @@ public class CoreDataContactsRepository: ContactsRepository {
                 return !($0.name?.isEmpty ?? false) || !($0.surname?.isEmpty ?? false)
             }) .map({
                 let builder = Contact().builder
+                if let url = $0.photoUrl {
+                    print(url)
+                }
                 builder
                     .set(name: $0.name ?? "")
                     .set(surname: $0.surname ?? "")

@@ -14,8 +14,10 @@ public class Contact: Decodable, Encodable {
     private(set) var phoneNumber: String = ""
     private(set) var email: String = ""
     private(set) var birthday: Date?
-    private(set) var hash: Int64 = 0
     private(set) var photoUrl: URL?
+    private(set) var hash: Int64 = 0
+    
+    
     var builder = Builder()
 
     init () {
@@ -74,6 +76,7 @@ public class Contact: Decodable, Encodable {
         case surname = "lastname"
         case phoneNumber = "phone"
         case email = "email"
+        case photoUrl = "photoUrl"
     }
     
     private func strHash(_ str: String) -> UInt64 {
