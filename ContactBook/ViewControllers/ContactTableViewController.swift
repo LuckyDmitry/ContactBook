@@ -14,35 +14,37 @@ class ContactCell: UITableViewCell {
     }
 }
 
-class ContactTableViewController: UIViewController, UIGestureRecognizerDelegate {
+class ContactTableViewController: UIViewController, UIGestureRecognizerDelegate, UISearchBarDelegate{
     
+    @IBOutlet var searchBar: UISearchBar!
     private var mapContacts: Dictionary<Character, [Contact]> = [:]
     private var filteredContacts: [Contact] = []
     private var tableCellSections: [Character] = []
     @IBOutlet var tableView: UITableView!
     private var output: ContactsViewOutput!
     private var longPressGesture: UILongPressGestureRecognizer!
-    private var isContactSearhing: Bool = false
+    private var isContactSearching: Bool = false
     
     @IBAction func onAddItemButtonPressed(_ sender: UIBarButtonItem) {
         output.addContactButtonPressed()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+        filteredContacts.removeAll()
         if searchText.isEmpty {
-            isContactSearhing = false
-            filteredContacts.removeAll()
+            isContactSearching = false
+            tableView.reloadData()
+            return
         }
         
         guard let firstLetter = searchText.first,
               let indexFirstLetter = tableCellSections.firstIndex(of: firstLetter) else {
-            
             return
         }
-        isContactSearhing = true
+        isContactSearching = true
         for contact in mapContacts[tableCellSections[indexFirstLetter]]!{
-            if contact.name.starts(with: searchText) {
+            let nameSurname = "\(contact.name.lowercased()) \(contact.surname.lowercased())"
+            if nameSurname.starts(with: searchText.lowercased()) {
                 filteredContacts.append(contact)
             }
         }
@@ -54,6 +56,7 @@ class ContactTableViewController: UIViewController, UIGestureRecognizerDelegate 
         print(#function)
         let presenter = ContactsPresenter()
         presenter.view = self
+        searchBar.delegate = self
         output = presenter
         let defaults = UserDefaults.standard
         var index = 1
@@ -109,14 +112,14 @@ extension ContactTableViewController: UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if isContactSearhing {
+        if isContactSearching {
             return 1
         }
         return tableCellSections.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isContactSearhing {
+        if isContactSearching {
             return filteredContacts.count
         }
         return mapContacts[tableCellSections[section]]?.count ?? 0
@@ -139,7 +142,7 @@ extension ContactTableViewController: UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath) as! ContactCell
         
         var contact: Contact!
-        if isContactSearhing {
+        if isContactSearching {
             contact = filteredContacts[indexPath.row]
         } else {
             contact = mapContacts[tableCellSections[indexPath.section]]?[indexPath.row]
@@ -163,7 +166,7 @@ extension ContactTableViewController: UITableViewDelegate {
 
 extension ContactTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if isContactSearhing {
+        if isContactSearching {
             return nil
         }
         return String(tableCellSections[section])
