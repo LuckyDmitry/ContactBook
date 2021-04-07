@@ -61,6 +61,7 @@ public class CoreDataContactsRepository: ContactsRepository {
             contactObject.phone = contact.phoneNumber
             contactObject.email = contact.email
             contactObject.birthday = contact.birthday
+            contactObject.photoUrl = contact.photoUrl
             do {
                 try backgroundContext.save()
             } catch  {
@@ -83,6 +84,7 @@ public class CoreDataContactsRepository: ContactsRepository {
             contactObject.first?.surname = contact.surname
             contactObject.first?.phone = contact.phoneNumber
             contactObject.first?.email = contact.email
+            contactObject.first?.photoUrl = contact.photoUrl
             contactObject.first?.birthday = contact.birthday
             print(contactObject.first?.birthday)
             try context.save()
@@ -129,9 +131,8 @@ public class CoreDataContactsRepository: ContactsRepository {
                     .set(phone: $0.phone ?? "")
                     .set(email: $0.email ?? "")
                     .set(hash: $0.hashVal)
+                    .set(photoURL: $0.photoUrl)
                 if let birthday = $0.birthday {
-                    print("IN MAP")
-                    print(birthday)
                     builder.set(birthday: birthday)
                 }
                 return builder.build()

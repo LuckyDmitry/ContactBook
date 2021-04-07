@@ -13,7 +13,7 @@ enum URLError: Error {
 class RemoteContactsDataTask: ContactsRemote {
     
     private var contacts = [Contact]()
-    private let urlAddress = "https://gist.githubusercontent.com/artgoncharov/d257658423edd46a9ead5f721b837b8c/raw/c38ace33a7c871e4ad3b347fc4cd970bb45561a3/contacts_data.json"
+    private let urlAddress = "https://gist.githubusercontent.com/artgoncharov/61c471db550238f469ad746a0c3102a7/raw/590dcd89a6aa10662c9667138c99e4b0a8f43c67/contacts_data2.json"
     var url: URL
     
     init?() {
@@ -46,6 +46,7 @@ class RemoteContactsDataTask: ContactsRemote {
                         .set(phone: $0.phoneNumber)
                         .set(email: $0.email)
                         .set(hash: $0.hash)
+                        .set(photoURL: $0.photoUrl)
                         .build()
                 }
             } catch {

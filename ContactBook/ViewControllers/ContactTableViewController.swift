@@ -1,13 +1,15 @@
 import UIKit
 import CoreData
-
+import Gifu
 
 class ContactCell: UITableViewCell {
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var customView: CustomContactView!
+    @IBOutlet var gifImageView: GIFImageView!
     
     override func prepareForReuse() {
         customView.setNeedsDisplay()
+        gifImageView.prepareForReuse()
         super.prepareForReuse()
     }
 }
@@ -15,13 +17,36 @@ class ContactCell: UITableViewCell {
 class ContactTableViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private var mapContacts: Dictionary<Character, [Contact]> = [:]
+    private var filteredContacts: [Contact] = []
     private var tableCellSections: [Character] = []
     @IBOutlet var tableView: UITableView!
     private var output: ContactsViewOutput!
     private var longPressGesture: UILongPressGestureRecognizer!
+    private var isContactSearhing: Bool = false
     
     @IBAction func onAddItemButtonPressed(_ sender: UIBarButtonItem) {
         output.addContactButtonPressed()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchText.isEmpty {
+            isContactSearhing = false
+            filteredContacts.removeAll()
+        }
+        
+        guard let firstLetter = searchText.first,
+              let indexFirstLetter = tableCellSections.firstIndex(of: firstLetter) else {
+            
+            return
+        }
+        isContactSearhing = true
+        for contact in mapContacts[tableCellSections[indexFirstLetter]]!{
+            if contact.name.starts(with: searchText) {
+                filteredContacts.append(contact)
+            }
+        }
+        tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -30,7 +55,6 @@ class ContactTableViewController: UIViewController, UIGestureRecognizerDelegate 
         let presenter = ContactsPresenter()
         presenter.view = self
         output = presenter
-        
         let defaults = UserDefaults.standard
         var index = 1
         if let seletectedScreen = defaults.string(forKey: LauchScreenKey.launchKey),
@@ -85,10 +109,16 @@ extension ContactTableViewController: UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        if isContactSearhing {
+            return 1
+        }
         return tableCellSections.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isContactSearhing {
+            return filteredContacts.count
+        }
         return mapContacts[tableCellSections[section]]?.count ?? 0
     }
     
@@ -108,16 +138,34 @@ extension ContactTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath) as! ContactCell
         
-        if let contact = mapContacts[tableCellSections[indexPath.section]]?[indexPath.row] {
-            cell.customView.text = "\(contact.name.first ?? " ")\(contact.surname.first ?? " ")"
-            cell.nameLabel.text = "\(contact.name) \(contact.surname)"
+        var contact: Contact!
+        if isContactSearhing {
+            contact = filteredContacts[indexPath.row]
+        } else {
+            contact = mapContacts[tableCellSections[indexPath.section]]?[indexPath.row]
         }
+        
+        if let myUrl = contact.photoUrl {
+            cell.gifImageView.prepareForAnimation(withGIFURL: myUrl, loopCount: 100, completionHandler: nil)
+            cell.gifImageView.startAnimatingGIF()
+            cell.gifImageView.isHidden = false
+            cell.customView.isHidden = true
+        } else {
+            cell.customView.isHidden = false
+            cell.gifImageView.isHidden = true
+            cell.customView.text = "\(contact.name.first ?? " ")\(contact.surname.first ?? " ")"
+        }
+        cell.nameLabel.text = "\(contact.name) \(contact.surname)"
+        
         return cell
     }
 }
 
 extension ContactTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if isContactSearhing {
+            return nil
+        }
         return String(tableCellSections[section])
     }
 }
@@ -138,7 +186,10 @@ extension ContactTableViewController: ContactsView {
     func showContacts(_ contacts: [Contact]) {
         print(#function)
         self.mapContacts = Dictionary(grouping: contacts){ contact in
-            contact.name.uppercased().first ?? " "
+            if let url = contact.photoUrl {
+                print(url)
+            }
+            return contact.name.uppercased().first ?? " "
         }
         
         self.tableCellSections.removeAll()
@@ -164,3 +215,4 @@ extension ContactTableViewController: ContactsView {
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
+

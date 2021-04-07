@@ -15,6 +15,7 @@ public class Contact: Decodable, Encodable {
     private(set) var email: String = ""
     private(set) var birthday: Date?
     private(set) var hash: Int64 = 0
+    private(set) var photoUrl: URL?
     var builder = Builder()
 
     init () {
@@ -42,6 +43,11 @@ public class Contact: Decodable, Encodable {
         
         public func set(email: String) -> Builder {
             parent.email = email
+            return self
+        }
+        
+        public func set(photoURL: URL?) -> Builder {
+            parent.photoUrl = photoURL
             return self
         }
         

@@ -6,6 +6,7 @@
         <attribute name="hashVal" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="photoUrl" optional="YES" attributeType="URI"/>
         <attribute name="surname" optional="YES" attributeType="String"/>
         <relationship name="calls" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecentCall" inverseName="contact" inverseEntity="RecentCall"/>
     </entity>
@@ -14,7 +15,7 @@
         <relationship name="contact" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContactData" inverseName="calls" inverseEntity="ContactData"/>
     </entity>
     <elements>
-        <element name="ContactData" positionX="-155.3284301757812" positionY="150.3801574707031" width="128" height="134"/>
+        <element name="ContactData" positionX="-155.3284301757812" positionY="150.3801574707031" width="128" height="149"/>
         <element name="RecentCall" positionX="132.1826171875" positionY="53.43309020996094" width="128" height="58"/>
     </elements>
 </model>
