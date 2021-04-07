@@ -94,8 +94,11 @@ extension ContactTableViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(#function)
-        guard let contact = mapContacts[tableCellSections[indexPath.section]]?[indexPath.row] else {
-            return
+        var contact: Contact!
+        if isContactSearching {
+            contact = filteredContacts[indexPath.row]
+        } else {
+            contact = mapContacts[tableCellSections[indexPath.section]]?[indexPath.row]
         }
         output.contactPressed(contact: contact)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -177,8 +180,11 @@ extension ContactTableViewController {
     
     private func makeCall(idx: IndexPath) {
         print(#function)
-        guard let contact = mapContacts[tableCellSections[idx.section]]?[idx.row] else {
-            return
+        var contact: Contact!
+        if isContactSearching {
+            contact = filteredContacts[idx.row]
+        } else {
+            contact = mapContacts[tableCellSections[idx.section]]?[idx.row]
         }
         output.addCall(contact: contact, date: Date())
     }
