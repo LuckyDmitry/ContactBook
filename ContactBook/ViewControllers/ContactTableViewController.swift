@@ -3,8 +3,13 @@ import CoreData
 
 
 class ContactCell: UITableViewCell {
-    @IBOutlet var customView: UIView!
     @IBOutlet var nameLabel: UILabel!
+    @IBOutlet var customView: CustomContactView!
+    
+    override func prepareForReuse() {
+        customView.setNeedsDisplay()
+        super.prepareForReuse()
+    }
 }
 
 class ContactTableViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -99,13 +104,14 @@ extension ContactTableViewController: UITableViewDelegate {
         return configuration
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath) as! ContactCell
         
         if let contact = mapContacts[tableCellSections[indexPath.section]]?[indexPath.row] {
-            cell.textLabel?.text = (contact.name) + " " + (contact.surname)
+            cell.customView.text = "\(contact.name.first ?? " ")\(contact.surname.first ?? " ")"
+            cell.nameLabel.text = "\(contact.name) \(contact.surname)"
         }
-        
         return cell
     }
 }

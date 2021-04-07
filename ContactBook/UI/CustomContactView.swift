@@ -9,12 +9,20 @@ import UIKit
 
 class CustomContactView: UIView {
 
-    var text: String?
+    var text: String = " "
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     override func draw(_ rect: CGRect) {
         let path = UIGraphicsGetCurrentContext()
         let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
-        let radius = CGFloat(rect.width - center.x - 5)
+        let radius = CGFloat(rect.width - center.x)
         
         path?.addArc(center: center, radius: radius, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
         
@@ -25,15 +33,14 @@ class CustomContactView: UIView {
         path?.setLineWidth(5)
         path?.fillPath()
         path?.strokePath()
-
+        
         let textRect = CGRect(x: center.x - (sqrt(2) / 2) * radius, y: center.y - (sqrt(2) / 2) * radius, width: 2 * (sqrt(2) / 2) * radius, height: 2 * (sqrt(2) / 2) * radius)
         
-        if let text = text {
-            let text = NSString(string: text)
-            text.draw(in: textRect, withAttributes:
-                        [NSAttributedString.Key.font: UIFont(name: "Helvetica Bold", size: radius - 20) as Any,
-                         NSAttributedString.Key.foregroundColor: UIColor.randomColor()])
-        }
+        let textToDwaw = NSString(string: text)
+        textToDwaw.draw(in: textRect, withAttributes:
+                            [NSAttributedString.Key.font: UIFont(name: "Helvetica Bold", size: radius / 1.1) as Any,
+                     NSAttributedString.Key.foregroundColor: UIColor.randomColor()])
+        
     }
 }
 

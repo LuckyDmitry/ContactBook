@@ -28,7 +28,7 @@ public class NewContactSerivce: NSObject {
     }
 }
 
-extension NewContactSerivce: CNContactViewControllerDelegate{
+extension NewContactSerivce: CNContactViewControllerDelegate {
     public func contactViewController(_ viewController: CNContactViewController, didCompleteWith contact: CNContact?) {
         print(#function)
         guard let contact = contact else {
