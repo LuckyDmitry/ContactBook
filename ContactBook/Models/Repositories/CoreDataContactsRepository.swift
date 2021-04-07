@@ -130,8 +130,8 @@ public class CoreDataContactsRepository: ContactsRepository {
                     .set(surname: $0.surname ?? "")
                     .set(phone: $0.phone ?? "")
                     .set(email: $0.email ?? "")
-                    .set(hash: $0.hashVal)
                     .set(photoURL: $0.photoUrl)
+                    .set(hash: $0.hashVal)
                 if let birthday = $0.birthday {
                     builder.set(birthday: birthday)
                 }

@@ -37,11 +37,13 @@ class ContactTableViewController: UIViewController, UIGestureRecognizerDelegate,
             return
         }
         
+        isContactSearching = true
         guard let firstLetter = searchText.first,
               let indexFirstLetter = tableCellSections.firstIndex(of: firstLetter) else {
+            tableView.reloadData()
             return
         }
-        isContactSearching = true
+        
         for contact in mapContacts[tableCellSections[indexFirstLetter]]!{
             let nameSurname = "\(contact.name.lowercased()) \(contact.surname.lowercased())"
             if nameSurname.starts(with: searchText.lowercased()) {
@@ -106,6 +108,9 @@ extension ContactTableViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         print(#function)
+        guard !isContactSearching else {
+            return
+        }
         if editingStyle == UITableViewCell.EditingStyle.delete {
             guard let contact = mapContacts[self.tableCellSections[indexPath.section]]?[indexPath.row] else {
                 return
@@ -156,6 +161,7 @@ extension ContactTableViewController: UITableViewDelegate {
             cell.gifImageView.startAnimatingGIF()
             cell.gifImageView.isHidden = false
             cell.customView.isHidden = true
+            
         } else {
             cell.customView.isHidden = false
             cell.gifImageView.isHidden = true
