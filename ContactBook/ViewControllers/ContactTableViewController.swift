@@ -5,6 +5,11 @@ import CoreData
 class ContactCell: UITableViewCell {
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var customView: CustomContactView!
+    
+    override func prepareForReuse() {
+        customView.setNeedsDisplay()
+        super.prepareForReuse()
+    }
 }
 
 class ContactTableViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -98,6 +103,7 @@ extension ContactTableViewController: UITableViewDelegate {
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath) as! ContactCell
